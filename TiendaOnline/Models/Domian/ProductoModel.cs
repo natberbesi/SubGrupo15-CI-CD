@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace TiendaOnline.Models
+namespace TiendaOnline.Models.Domian
 {
 
     public class ProductoModel

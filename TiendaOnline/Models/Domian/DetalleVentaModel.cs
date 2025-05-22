@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace TiendaOnline.Models
+namespace TiendaOnline.Models.Domian
 {
-    public class DetalleVenta
+    public class DetalleVentaModel
     {
         [Key]
     public int DetalleVentaId { get; set; }

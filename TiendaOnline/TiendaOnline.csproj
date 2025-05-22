@@ -6,4 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Models\ViewModel\" />
+    <Folder Include="Views\Auth\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Productos\" />
+    <Folder Include="Views\Usuario\" />
+    <Folder Include="wwroot\css\" />
+    <Folder Include="wwroot\img\" />
+    <Folder Include="wwroot\js\" />
+  </ItemGroup>
+
 </Project>

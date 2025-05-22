@@ -18,9 +18,9 @@ namespace TiendaOnline.Models.Domian
         public int UsuarioId { get; set; }
 
         [ForeignKey("UsuarioId")]
-        public Usuario? Usuario { get; set; }
+        public UsuarioModel? Usuario { get; set; }
 
-        public ICollection<DetalleVenta>? Detalles { get; set; }
+        public ICollection<DetalleVentaModel>? Detalles { get; set; }
     }
 
 }

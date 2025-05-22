@@ -12,13 +12,13 @@ namespace TiendaOnline.Models.Domian
     public int VentaId { get; set; }
 
     [ForeignKey("VentaId")]
-    public Venta? Venta { get; set; }
+    public VentaModel? Venta { get; set; }
 
     [Required]
     public int ProductoId { get; set; }
 
     [ForeignKey("ProductoId")]
-    public Producto? Producto { get; set; }
+    public ProductoModel? Producto { get; set; }
 
     [Required]
     [Range(1, 1000)]

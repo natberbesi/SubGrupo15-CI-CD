@@ -23,8 +23,8 @@ namespace TiendaOnline.Models.Domian
 
         public string? ImagenUrl { get; set; }
 
-        public ICollection<DetalleVenta>? DetallesVenta { get; set; }
-        public ICollection<Carrito>? Carritos { get; set; }
+        public ICollection<DetalleVentaModel>? DetallesVenta { get; set; }
+        public ICollection<CarritoModel>? Carritos { get; set; }
     }
     
 }

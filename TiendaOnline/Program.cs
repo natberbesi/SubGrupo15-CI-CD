@@ -1,6 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using TiendaOnline.Data; // Asegúrate que este namespace sea el correcto
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// 🔧 Agregar cadena de conexión desde appsettings.json
+builder.Services.AddDbContext<TiendaOnlineContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// MVC
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

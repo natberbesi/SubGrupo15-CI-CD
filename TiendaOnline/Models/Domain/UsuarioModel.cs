@@ -22,7 +22,7 @@ namespace TiendaOnline.Models.Domian
         [Required]
         public string Rol { get; set; } // "admin" o "cliente"
 
-        public ICollection<Venta>? Ventas { get; set; }
-        public ICollection<Carrito>? Carrito { get; set; }
+        public ICollection<VentaModel>? Ventas { get; set; }
+        public ICollection<CarritoModel>? Carrito { get; set; }
     }
 }

@@ -7,32 +7,57 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TiendaOnline.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <header>
+        <!-- Nueva navbar con logo + banner -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm w-100 m-0 p-0">
+            <div class="container-fluid d-flex justify-content-between align-items-center p-0">
+                <!-- Logo -->
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/amasonn.jpg" alt="Amason Logo" style="height: 70px; width: auto;" />
+                </a>
+
+                <!-- Buscador centrado y estilizado -->
+                <form class="d-none d-md-flex mx-3 flex-grow-1 justify-content-center" method="get" asp-controller="Home" asp-action="Buscar" style="max-width: 600px;">
+                    <div class="input-group rounded shadow-sm" style="background: #fff;">
+                        <input type="text" class="form-control text-center border-primary" name="q" placeholder="Buscar productos..." aria-label="Buscar productos" style="font-size: 1.2rem; padding: 0.75rem 1rem;" />
+                        <button class="btn btn-outline-primary" type="submit" title="Buscar">
+                            <span class="material-icons">search</span>
+                        </button>
+                        <button class="btn btn-outline-secondary" type="button" title="Buscar por imagen">
+                            <span class="material-icons">photo_camera</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Banner Envío Gratis -->
+                <div class="d-none d-md-block">
+                    <img src="~/enviogratis.png" alt="Envío Gratis" style="height: 70px; width: auto;" />
+                </div>
+            </div>
+        </nav>
+
+
+
+        <!-- Menú de navegación estándar -->
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TiendaOnline</a>
+                <!-- Botón responsive -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+
+                
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            @RenderBody( )
         </main>
     </div>
 
@@ -41,6 +66,7 @@
             &copy; 2025 - TiendaOnline - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

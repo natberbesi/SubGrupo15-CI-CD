@@ -10,23 +10,23 @@ using TiendaOnline.Models.Domian;
 
 namespace TiendaOnline.Controllers
 {
-    public class VentaModelsController : Controller
+    public class VentaController : Controller
     {
         private readonly TiendaOnlineContext _context;
 
-        public VentaModelsController(TiendaOnlineContext context)
+        public VentaController(TiendaOnlineContext context)
         {
             _context = context;
         }
 
-        // GET: VentaModels
+        // GET: Venta
         public async Task<IActionResult> Index()
         {
             var tiendaOnlineContext = _context.Ventas.Include(v => v.Usuario);
             return View(await tiendaOnlineContext.ToListAsync());
         }
 
-        // GET: VentaModels/Details/5
+        // GET: Venta/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,14 +45,14 @@ namespace TiendaOnline.Controllers
             return View(ventaModel);
         }
 
-        // GET: VentaModels/Create
+        // GET: Venta/Create
         public IActionResult Create()
         {
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "Clave");
             return View();
         }
 
-        // POST: VentaModels/Create
+        // POST: Venta/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -69,7 +69,7 @@ namespace TiendaOnline.Controllers
             return View(ventaModel);
         }
 
-        // GET: VentaModels/Edit/5
+        // GET: Venta/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,7 +86,7 @@ namespace TiendaOnline.Controllers
             return View(ventaModel);
         }
 
-        // POST: VentaModels/Edit/5
+        // POST: Venta/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -122,7 +122,7 @@ namespace TiendaOnline.Controllers
             return View(ventaModel);
         }
 
-        // GET: VentaModels/Delete/5
+        // GET: Venta/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,7 +141,7 @@ namespace TiendaOnline.Controllers
             return View(ventaModel);
         }
 
-        // POST: VentaModels/Delete/5
+        // POST: Venta/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

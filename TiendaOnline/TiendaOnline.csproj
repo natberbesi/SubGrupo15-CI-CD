@@ -9,8 +9,6 @@
   <ItemGroup>
     <Folder Include="Views\Auth\" />
     <Folder Include="Views\Admin\" />
-    <Folder Include="Views\Productos\" />
-    <Folder Include="Views\Usuario\" />
   </ItemGroup>
 
   <ItemGroup>

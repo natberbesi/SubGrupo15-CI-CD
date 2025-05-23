@@ -10,22 +10,22 @@ using TiendaOnline.Models.Domian;
 
 namespace TiendaOnline.Controllers
 {
-    public class ProductoModelsController : Controller
+    public class ProductoController : Controller
     {
         private readonly TiendaOnlineContext _context;
 
-        public ProductoModelsController(TiendaOnlineContext context)
+        public ProductoController(TiendaOnlineContext context)
         {
             _context = context;
         }
 
-        // GET: ProductoModels
+        // GET: Producto
         public async Task<IActionResult> Index()
         {
             return View(await _context.Productos.ToListAsync());
         }
 
-        // GET: ProductoModels/Details/5
+        // GET: Producto/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,13 +43,13 @@ namespace TiendaOnline.Controllers
             return View(productoModel);
         }
 
-        // GET: ProductoModels/Create
+        // GET: Producto/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ProductoModels/Create
+        // POST: Producto/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +65,7 @@ namespace TiendaOnline.Controllers
             return View(productoModel);
         }
 
-        // GET: ProductoModels/Edit/5
+        // GET: Producto/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,7 +81,7 @@ namespace TiendaOnline.Controllers
             return View(productoModel);
         }
 
-        // POST: ProductoModels/Edit/5
+        // POST: Producto/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -116,7 +116,7 @@ namespace TiendaOnline.Controllers
             return View(productoModel);
         }
 
-        // GET: ProductoModels/Delete/5
+        // GET: Producto/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +134,7 @@ namespace TiendaOnline.Controllers
             return View(productoModel);
         }
 
-        // POST: ProductoModels/Delete/5
+        // POST: Producto/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

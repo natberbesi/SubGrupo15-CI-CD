@@ -10,15 +10,15 @@ os.system("""
 docker run -d \
   --name mysql_container \
   --network mi_red \
-  -e MYSQL_ROOT_PASSWORD=clave123 \
+  -e MYSQL_ROOT_PASSWORD=poli2025grupo15 \
   -e MYSQL_DATABASE=ecommerce_db \
-  -e MYSQL_USER=usuario \
-  -e MYSQL_PASSWORD=claveusuario \
+  -e MYSQL_USER=poligrangrupo15 \
+  -e MYSQL_PASSWORD=poli@/87** \
   -p 3306:3306 \
   mysql:latest
 """)
 
 print("🟢 Contenedor MySQL iniciado. Esperando a que esté listo...")
 time.sleep(20)
-print("✅ Contenedor levantado y listo para conexiones.")
+print(" Contenedor levantado y listo para conexiones.")
 

@@ -22,7 +22,7 @@ Ejecuta el siguiente comando para levantar un contenedor MySQL con las variables
 
 ```bash
 docker run --name mysql-ecommerce \
- -e MYSQL_ROOT_PASSWORD=clave123 \
+ -e MYSQL_ROOT_PASSWORD=poli2025grupo15 \
  -e MYSQL_DATABASE=ecommerce_db \
  -e MYSQL_USER=poligrangrupo15 \
  -e MYSQL_PASSWORD=poli@/87** \
@@ -66,8 +66,8 @@ import mysql.connector
 
 conexion = mysql.connector.connect(
     host='localhost',
-    user='usuario',
-    password='claveusuario',
+    user='poligrangrupo15',
+    password='poli@/87**',
     database='ecommerce_db',
     port=3306
 )
@@ -131,8 +131,8 @@ Puedes crear un archivo `.env` para guardar tus credenciales sin subirlas al rep
 
 ```env
 DB_HOST=localhost
-DB_USER=usuario
-DB_PASSWORD=claveusuario
+DB_USER=poligrangrupo15
+DB_PASSWORD=poli@/87**
 DB_NAME=ecommerce_db
 DB_PORT=3306
 ```

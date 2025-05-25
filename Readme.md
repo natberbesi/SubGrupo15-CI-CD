@@ -24,8 +24,8 @@ Ejecuta el siguiente comando para levantar un contenedor MySQL con las variables
 docker run --name mysql-ecommerce \
  -e MYSQL_ROOT_PASSWORD=clave123 \
  -e MYSQL_DATABASE=ecommerce_db \
- -e MYSQL_USER=usuario \
- -e MYSQL_PASSWORD=claveusuario \
+ -e MYSQL_USER=poligrangrupo15 \
+ -e MYSQL_PASSWORD=poli@/87** \
  -p 3306:3306 \
  -d mysql:latest
 ````

@@ -7,9 +7,8 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
-<!-- Banner estilo Mercado Libre, ahora full width real -->
-<div style="width: 100vw; margin-left: calc(-50vw + 50%); border-radius: 0;" class="bg-warning text-dark text-center py-5">
+<!-- Banner Envío Gratis -->
+<div style="width: 100vw; margin-left: calc(-50vw + 50%);" class="bg-warning text-dark text-center py-5">
     <h1 class="display-4 fw-bold">ENVÍO GRATIS</h1>
     <p class="fs-4">En tu primera compra</p>
     <button class="btn btn-dark btn-lg">
@@ -17,9 +16,19 @@
     </button>
 </div>
 
-
 <div class="container-fluid p-0">
-    <!-- Sección de accesos rápidos -->
+    <nav class="navbar navbar-expand navbar-light bg-light mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Tienda Online</a>
+            <div class="navbar-nav">
+                <a class="nav-link" asp-page="/Index">Inicio</a>
+                <a class="nav-link" asp-page="/Carrito/Index">Carrito</a>
+                <a class="nav-link" asp-page="/Productos/Index">Productos</a>
+                <!-- Agrega más enlaces según tus vistas -->
+            </div>
+        </div>
+    </nav>
+    <!-- Accesos rápidos -->
     <div class="container py-4">
         <div class="row row-cols-2 row-cols-md-6 g-3 text-center">
             <div class="col">
@@ -41,13 +50,15 @@
                 </div>
             </div>
             <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <span class="material-icons fs-1">account_circle</span>
-                        <h6 class="mt-2">Cuenta</h6>
-                        <p class="text-muted small">Inicia sesión o regístrate.</p>
+                <a href="/Auth/Register" class="text-decoration-none text-dark">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <span class="material-icons fs-1">account_circle</span>
+                            <h6 class="mt-2">Cuenta</h6>
+                            <p class="text-muted small">Inicia sesión o regístrate.</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col">
                 <div class="card h-100">
@@ -79,19 +90,26 @@
         </div>
     </div>
 
+    <!-- Productos destacados -->
     <div class="container py-5">
-        <h2 class="mb-4 text-center">Productos Destacados</h2>
+        <div class="section-title mb-4 text-center">
+    <h2>Productos Destacados</h2>
+    <div class="underline"></div>
+    </div>
+
         <div class="row row-cols-1 row-cols-md-4 g-4">
             @for (int i = 1; i <= 8; i++)
             {
-                <div class="col">
+                <div class="col product-card" style="animation-delay: @(i * 0.1)s;">
                     <div class="card h-100 shadow-sm">
-                        <img src="https://via.placeholder.com/300x200?text=Producto+@i" class="card-img-top" alt="Producto @i">
-                        <div class="card-body">
+                        <div class="img-container">
+                            <img src="https://via.placeholder.com/300x200?text=Producto+@i" class="card-img-top" alt="Producto @i">
+                        </div>
+                        <div class="card-body text-center">
                             <h5 class="card-title">Producto @i</h5>
-                            <p class="card-text text-success fw-bold">$@((i * 10000).ToString("N0"))</p>
-                            <button class="btn btn-outline-primary w-100" onclick="agregarAlCarrito(@i)">
-                                Agregar al carrito <span class="material-icons">add_shopping_cart</span>
+                            <p class="card-price">$@((i * 10000).ToString("N0"))</p>
+                            <button class="btn btn-add-cart" onclick="agregarAlCarrito(@i)">
+                                <span class="material-icons">add_shopping_cart</span> Agregar
                             </button>
                         </div>
                     </div>
@@ -100,8 +118,6 @@
         </div>
     </div>
 </div>
-    
-
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

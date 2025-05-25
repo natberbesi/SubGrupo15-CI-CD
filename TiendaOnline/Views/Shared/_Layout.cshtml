@@ -1,75 +1,51 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TiendaOnline</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/TiendaOnline.styles.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <!-- Nueva navbar con logo + banner -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm w-100 m-0 p-0">
-            <div class="container-fluid d-flex justify-content-between align-items-center p-0">
-                <!-- Logo -->
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/amasonn.jpg" alt="Amason Logo" style="height: 70px; width: auto;" />
-                </a>
-
-                <!-- Buscador centrado y estilizado -->
-                <form class="d-none d-md-flex mx-3 flex-grow-1 justify-content-center" method="get" asp-controller="Home" asp-action="Buscar" style="max-width: 600px;">
-                    <div class="input-group rounded shadow-sm" style="background: #fff;">
-                        <input type="text" class="form-control text-center border-primary" name="q" placeholder="Buscar productos..." aria-label="Buscar productos" style="font-size: 1.2rem; padding: 0.75rem 1rem;" />
-                        <button class="btn btn-outline-primary" type="submit" title="Buscar">
-                            <span class="material-icons">search</span>
-                        </button>
-                        <button class="btn btn-outline-secondary" type="button" title="Buscar por imagen">
-                            <span class="material-icons">photo_camera</span>
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Banner Envío Gratis -->
-                <div class="d-none d-md-block">
-                    <img src="~/enviogratis.png" alt="Envío Gratis" style="height: 70px; width: auto;" />
-                </div>
-            </div>
-        </nav>
-
-
-
-        <!-- Menú de navegación estándar -->
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
             <div class="container-fluid">
-                <!-- Botón responsive -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                
+                <a class="navbar-brand text-warning fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/amasonn.jpg" alt="Logo" style="height: 50px; margin-right: 10px;" /> Amasonn
+                </a>
+                <form class="d-flex flex-grow-1 mx-3" asp-controller="Home" asp-action="Buscar">
+                    <input class="form-control me-2" type="search" name="q" placeholder="Buscar productos..." aria-label="Buscar">
+                    <button class="btn btn-warning" type="submit">Buscar</button>
+                </form>
+                <div class="d-flex">
+                    @if (Context.Session.GetString("UsuarioNombre") != null)
+                    {
+                        <span class="navbar-text text-white me-3">Hola, @Context.Session.GetString("UsuarioNombre")</span>
+                        <a class="btn btn-outline-light" asp-controller="Auth" asp-action="Logout">Cerrar Sesión</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-light" asp-controller="Auth" asp-action="Login">Iniciar Sesión</a>
+                    }
+                </div>
             </div>
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody( )
-        </main>
-    </div>
+    <main class="container py-4">
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - TiendaOnline - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <div class="container">&copy; 2025 - TiendaOnline</div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

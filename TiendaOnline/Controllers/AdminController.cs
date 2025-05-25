@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace TiendaOnline.Controllers
 {
@@ -6,7 +7,11 @@ namespace TiendaOnline.Controllers
     {
         public IActionResult Index()
         {
-            return View( );
+            var rol = HttpContext.Session.GetString("UsuarioRol");
+            if (rol != "admin")
+                return RedirectToAction("Login", "Auth");
+
+            return View();
         }
     }
 }

@@ -1,27 +1,37 @@
 using Microsoft.EntityFrameworkCore;
-using TiendaOnline.Data; // Asegúrate que este namespace sea el correcto
+using TiendaOnline.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 🔧 Agregar cadena de conexión desde appsettings.json
+// Configuración de EF Core
 builder.Services.AddDbContext<TiendaOnlineContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// MVC
+// MVC y sesiones
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Manejo de errores
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
 app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseSession();         
+app.UseAuthentication(); 
+app.UseAuthorization(); 
 
 app.MapControllerRoute(
     name: "default",

@@ -6,19 +6,19 @@ namespace TiendaOnline.Models.ViewModel
     {
         [Required]
         [StringLength(100)]
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } = string.Empty;
 
         [Required]
         [EmailAddress]
-        public string Correo { get; set; }
+        public string Correo { get; set; } = string.Empty;
 
         [Required]
         [DataType(DataType.Password)]
-        public string Clave { get; set; }
+        public string Clave { get; set; } = string.Empty;
 
         [Required]
         [Compare("Clave", ErrorMessage = "Las contraseñas no coinciden.")]
         [DataType(DataType.Password)]
-        public string ConfirmarClave { get; set; }
+        public string ConfirmarClave { get; set; } = string.Empty;
     }
 }

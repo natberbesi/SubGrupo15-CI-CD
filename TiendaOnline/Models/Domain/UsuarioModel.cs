@@ -5,8 +5,8 @@ namespace TiendaOnline.Models.Domian
     public class UsuarioModel
     {
         [Key]
-        public int UsuarioId { get; set; }
-
+        public int UsuarioId {  get; set; }
+ 
         [Required]
         [StringLength(100)]
         public string Nombre { get; set; }

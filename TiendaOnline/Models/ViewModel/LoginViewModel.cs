@@ -6,10 +6,11 @@ namespace TiendaOnline.Models.ViewModel
     {
         [Required]
         [EmailAddress]
-        public string Correo { get; set; }
+        public string Correo { get; set; } = string.Empty;
 
         [Required]
         [DataType(DataType.Password)]
-        public string Clave { get; set; }
+        public string Clave { get; set; } = string.Empty;
     }
 }
+

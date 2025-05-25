@@ -1,7 +1,7 @@
 import mysql.connector
  
 conexion = mysql.connector.connect(
-    host="localhost",         # o "127.0.0.1" si está en contenedor local expuesto
+    host="localhost",       
     user="poligrangrupo15",
     password="poli@/87**",
     database="ecommerce_db"

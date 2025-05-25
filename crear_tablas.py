@@ -65,7 +65,8 @@ try:
             PROD_CNOMBRE VARCHAR(100) NOT NULL,
             PROD_CDESCRIPCION TEXT,
             PROD_NPRECIO DECIMAL(10, 2) NOT NULL,
-            PROD_NSTOCK INT NOT NULL DEFAULT 0
+            PROD_NSTOCK INT NOT NULL DEFAULT 0,
+            PROD_CIMAGEN_URL VARCHAR(1000) NOT NULL
         )
         """)
         

@@ -5,8 +5,8 @@ try:
     # Conexión a la base de datos
     conexion = mysql.connector.connect(
         host='localhost',
-        user='usuario',
-        password='claveusuario',
+        user='poligrangrupo15',
+        password='poli@/87**',
         database='ecommerce_db'
     )
 

@@ -1,14 +1,19 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using TiendaOnline.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuración de EF Core
 builder.Services.AddDbContext<TiendaOnlineContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    ) // Se cerró correctamente el paréntesis aquí
+);
 
 // MVC y sesiones
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews( ); // No se requiere ningún cambio aquí, el error CS1503 no aplica a esta línea
 
 builder.Services.AddSession(options =>
 {
@@ -17,24 +22,25 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-var app = builder.Build();
+builder.WebHost.UseUrls("http://0.0.0.0:8080");
+var app = builder.Build( );
 
 // Manejo de errores
-if (!app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment( ))
 {
     app.UseExceptionHandler("/Home/Error");
 }
 
-app.UseStaticFiles();
+app.UseStaticFiles( );
 
-app.UseRouting();
+app.UseRouting( );
 
-app.UseSession();         
-app.UseAuthentication(); 
-app.UseAuthorization(); 
+app.UseSession( );
+app.UseAuthentication( );
+app.UseAuthorization( );
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+app.Run( );

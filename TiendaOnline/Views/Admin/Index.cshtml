@@ -1,15 +1,113 @@
 @{
     ViewData["Title"] = "Panel de Administración";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="admin-container">
+    <h1> Panel de Administración</h1>
 
-<div class="card mt-4">
-    <div class="card-body">
-        <h4 class="card-title">Bienvenido al panel de administrador</h4>
-        <p class="card-text">Desde aquí puedes gestionar productos, usuarios y ver estadísticas.</p>
-        <a href="/Producto" class="btn btn-primary">Administrar Productos</a>
-        <a href="/Usuario" class="btn btn-secondary">Administrar Usuarios</a>
-        <a href="/Venta" class="btn btn-success">Ver Ventas</a>
+    <div class="admin-grid">
+        <div class="admin-card">
+            <h3> Productos</h3>
+            <p>24 productos registrados</p>
+            <a href="/Producto" class="card-link">Gestionar</a>
+        </div>
+
+        <div class="admin-card">
+            <h3> Pedidos</h3>
+            <p>8 pedidos pendientes</p>
+            <a href="/Pedido" class="card-link">Ver pedidos</a>
+        </div>
+
+        <div class="admin-card">
+            <h3> Usuarios</h3>
+            <p>15 usuarios registrados</p>
+            <a href="/Usuario" class="card-link">Ver usuarios</a>
+        </div>
+
+        <div class="admin-card">
+            <h3> Ventas</h3>
+            <p>$12,400 en total</p>
+            <a href="#" class="card-link">Ver estadísticas</a>
+        </div>
     </div>
 </div>
+
+<style>
+    .admin-container {
+        padding: 2rem;
+        background: #f4f4f4;
+        animation: fadeIn 0.5s ease;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+        color: #222;
+    }
+
+    .admin-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .admin-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        animation: fadeInUp 0.6s ease;
+    }
+
+    .admin-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .admin-card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .admin-card p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        color: #666;
+    }
+
+    .card-link {
+        display: inline-block;
+        padding: 0.6rem 1rem;
+        background: #ffe600;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .card-link:hover {
+        background: #ffcc00;
+        transform: scale(1.05);
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @@keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @@media (max-width: 768px) {
+        .admin-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

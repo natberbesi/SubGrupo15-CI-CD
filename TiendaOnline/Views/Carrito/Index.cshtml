@@ -1,34 +1,148 @@
 @model IEnumerable<TiendaOnline.Models.Domian.CarritoModel>
+
 @{
     ViewData["Title"] = "Carrito de Compras";
 }
 
-<h2 class="text-center text-dark mb-4">Carrito de Compras</h2>
-<table class="table table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>Producto</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Total</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Producto?.Nombre</td>
-                <td>$@item.Producto?.Precio</td>
-                <td>@item.Cantidad</td>
-                <td>$@(item.Cantidad * item.Producto?.Precio)</td>
-                <td>
+<section class="carrito-section">
+    <h2 class="titulo"> Tu Carrito</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="carrito-vacio">
+            <p>No tienes productos en el carrito.</p>
+        </div>
+    }
+    else
+    {
+        <div class="productos-carrito">
+            @foreach (var item in Model)
+            {
+                <div class="producto-card animate-fade">
+                    <div class="detalle">
+                        <h4>@item.Producto?.Nombre</h4>
+                        <p class="precio">Precio: $@item.Producto?.Precio</p>
+                        <p class="cantidad">Cantidad: @item.Cantidad</p>
+                        <p class="total">Total: $@(item.Cantidad * item.Producto?.Precio)</p>
+                    </div>
                     <form asp-action="Eliminar" asp-route-id="@item.CarritoId" method="post">
-                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                        <button type="submit" class="btn-eliminar">🗑 Eliminar</button>
                     </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<a asp-action="FinalizarCompra" class="btn btn-success mt-3">Finalizar Compra</a>
+                </div>
+            }
+        </div>
+
+        <div class="finalizar-container">
+            <a asp-action="FinalizarCompra" class="btn-finalizar"> Finalizar Compra</a>
+        </div>
+    }
+</section>
+
+<style>
+    .carrito-section {
+        padding: 2rem;
+        max-width: 1000px;
+        margin: auto;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .titulo {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: #222;
+        animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .carrito-vacio {
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 2rem;
+        color: #777;
+        animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .productos-carrito {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        animation: fadeInUp 0.5s ease-in-out;
+    }
+
+    .producto-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        transition: transform 0.3s ease;
+        position: relative;
+    }
+
+    .producto-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .detalle h4 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #222;
+    }
+
+    .detalle p {
+        margin: 0.5rem 0;
+        color: #555;
+    }
+
+    .btn-eliminar {
+        background-color: #ff4d4f;
+        border: none;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        transition: background 0.3s ease, transform 0.2s;
+    }
+
+    .btn-eliminar:hover {
+        background-color: #d9363e;
+        transform: scale(1.05);
+    }
+
+    .finalizar-container {
+        text-align: right;
+        margin-top: 2rem;
+    }
+
+    .btn-finalizar {
+        background-color: #4caf50;
+        color: white;
+        padding: 0.9rem 2rem;
+        font-size: 1rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background 0.3s ease, transform 0.2s;
+    }
+
+    .btn-finalizar:hover {
+        background-color: #388e3c;
+        transform: scale(1.05);
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @@keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade {
+        animation: fadeInUp 0.5s ease-in-out;
+    }
+</style>

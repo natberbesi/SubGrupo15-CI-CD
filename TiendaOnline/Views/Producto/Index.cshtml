@@ -1,59 +1,54 @@
-﻿@model IEnumerable<TiendaOnline.Models.Domian.ProductoModel>
+@model IEnumerable<TiendaOnline.Models.Domian.ProductoModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 style="text-align: center; color: black;">Listado de Productos</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" style="background-color: #ffe600; color: black; padding: 10px 15px; text-decoration: none; font-weight: bold; border-radius: 5px;">
+        Agregar Producto
+    </a>
 </p>
-<table class="table">
-    <thead>
+
+<table class="table" style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
+    <thead style="background-color: black; color: white;">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Precio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagenUrl)
-            </th>
-            <th></th>
+            <th style="padding: 10px;">@Html.DisplayNameFor(model => model.Nombre)</th>
+            <th style="padding: 10px;">@Html.DisplayNameFor(model => model.Descripcion)</th>
+            <th style="padding: 10px;">@Html.DisplayNameFor(model => model.Precio)</th>
+            <th style="padding: 10px;">@Html.DisplayNameFor(model => model.Stock)</th>
+            <th style="padding: 10px;">@Html.DisplayNameFor(model => model.ImagenUrl)</th>
+            <th style="padding: 10px;">Acciones</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
+        <tr style="border-bottom: 1px solid #ccc;">
+            <td style="padding: 10px;">@Html.DisplayFor(modelItem => item.Nombre)</td>
+            <td style="padding: 10px;">@Html.DisplayFor(modelItem => item.Descripcion)</td>
+            <td style="padding: 10px;">$@Html.DisplayFor(modelItem => item.Precio)</td>
+            <td style="padding: 10px;">@Html.DisplayFor(modelItem => item.Stock)</td>
+            <td style="padding: 10px;">
+                <img src="@item.ImagenUrl" alt="Imagen" style="max-height: 50px;" />
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Precio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagenUrl)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductoId">Delete</a>
+            <td style="padding: 10px; white-space: nowrap;">
+                <a asp-action="Edit" asp-route-id="@item.ProductoId"
+                   style="background-color: black; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; margin-right: 5px;">
+                    Editar
+                </a>
+                <a asp-action="Details" asp-route-id="@item.ProductoId"
+                   style="background-color: #ffe600; color: black; padding: 6px 12px; text-decoration: none; border-radius: 4px; margin-right: 5px;">
+                    Detalles
+                </a>
+                <a asp-action="Delete" asp-route-id="@item.ProductoId"
+                   style="background-color: red; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px;">
+                    Eliminar
+                </a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+

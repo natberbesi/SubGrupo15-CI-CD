@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TiendaOnline.Data;
-using TiendaOnline.Models.Domian;
-using Microsoft.EntityFrameworkCore;
+using TiendaOnline.Models.ViewModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using MySql.Data.MySqlClient;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -9,12 +9,7 @@ namespace TiendaOnline.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly TiendaOnlineContext _context;
-
-        public AuthController(TiendaOnlineContext context)
-        {
-            _context = context;
-        }
+        private readonly string _connectionString = "Server=mysql_container;Port=3306;Database=ecommerce_db;Uid=poligrangrupo15;Pwd=poli@/87**;";
 
         public IActionResult Login()
         {
@@ -28,31 +23,41 @@ namespace TiendaOnline.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string correo, string clave)
+        public IActionResult Login(LoginViewModel modelo)
         {
-            if (string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(clave))
+            if (!ModelState.IsValid)
+                return View(modelo);
+
+            using var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+
+            string query = @"SELECT USU_NID, USU_CNOMBRE, USU_CCORREO, USU_CCONTRASEÑA, USU_CROL 
+                             FROM TBL_RUSUARIO 
+                             WHERE USU_CCORREO = @correo";
+
+            using var cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@correo", modelo.Correo);
+
+            using var reader = cmd.ExecuteReader();
+            if (reader.Read())
             {
-                ViewBag.Error = "Correo y contraseña son requeridos.";
-                return View();
+                string hashGuardado = reader["USU_CCONTRASEÑA"].ToString();
+                if (VerificarPassword(modelo.Clave, hashGuardado))
+                {
+                    string nombre = reader["USU_CNOMBRE"].ToString();
+                    string rol = reader["USU_CROL"].ToString();
+
+                    HttpContext.Session.SetString("UsuarioNombre", nombre);
+                    HttpContext.Session.SetString("UsuarioRol", rol);
+
+                    return rol == "admin"
+                        ? RedirectToAction("Index", "Admin")
+                        : RedirectToAction("Index", "Home");
+                }
             }
 
-            string hashedPassword = HashPassword(clave);
-
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(u => u.Correo == correo && u.Clave == hashedPassword);
-
-            if (usuario == null)
-            {
-                ViewBag.Error = "Correo o contraseña incorrectos.";
-                return View();
-            }
-
-            HttpContext.Session.SetString("UsuarioNombre", usuario.Nombre);
-            HttpContext.Session.SetString("UsuarioRol", usuario.Rol);
-
-            return usuario.Rol == "admin"
-                ? RedirectToAction("Index", "Admin")
-                : RedirectToAction("Index", "Home");
+            ModelState.AddModelError("", "Correo o contraseña incorrectos.");
+            return View(modelo);
         }
 
         public IActionResult Logout()
@@ -61,8 +66,6 @@ namespace TiendaOnline.Controllers
             return RedirectToAction("Login");
         }
 
-        // ==== NUEVO: Registro ====
-
         [HttpGet]
         public IActionResult Register()
         {
@@ -70,45 +73,68 @@ namespace TiendaOnline.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(string nombre, string correo, string clave, string confirmarClave)
+        public IActionResult Register(RegistroViewModel modelo)
         {
-            if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(correo) ||
-                string.IsNullOrWhiteSpace(clave) || string.IsNullOrWhiteSpace(confirmarClave))
+            if (!ModelState.IsValid)
+                return View(modelo);
+
+            using var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+
+            string checkQuery = "SELECT COUNT(*) FROM TBL_RUSUARIO WHERE USU_CCORREO = @correo";
+            using (var checkCmd = new MySqlCommand(checkQuery, conn))
             {
-                ViewBag.Error = "Todos los campos son obligatorios.";
-                return View();
+                checkCmd.Parameters.AddWithValue("@correo", modelo.Correo);
+                long count = (long)checkCmd.ExecuteScalar();
+                if (count > 0)
+                {
+                    ViewBag.Error = "Ya existe un usuario con ese correo.";
+                    return View(modelo);
+                }
             }
 
-            if (clave != confirmarClave)
+            string insertQuery = @"INSERT INTO TBL_RUSUARIO (USU_CNOMBRE, USU_CCORREO, USU_CCONTRASEÑA, USU_CROL)
+                                   VALUES (@nombre, @correo, @contraseña, 'cliente')";
+
+            using (var cmd = new MySqlCommand(insertQuery, conn))
             {
-                ViewBag.Error = "Las contraseñas no coinciden.";
-                return View();
+                cmd.Parameters.AddWithValue("@nombre", modelo.Nombre);
+                cmd.Parameters.AddWithValue("@correo", modelo.Correo);
+                cmd.Parameters.AddWithValue("@contraseña", HashPassword(modelo.Clave));
+                cmd.ExecuteNonQuery();
             }
 
-            if (await _context.Usuarios.AnyAsync(u => u.Correo == correo))
-            {
-                ViewBag.Error = "Ya existe un usuario con ese correo.";
-                return View();
-            }
-
-            var usuario = new UsuarioModel
-            {
-                Nombre = nombre,
-                Correo = correo,
-                Clave = HashPassword(clave),
-                Rol = "cliente"
-            };
-
-            _context.Usuarios.Add(usuario);
-            await _context.SaveChangesAsync();
-
-            HttpContext.Session.SetString("UsuarioNombre", usuario.Nombre);
-            HttpContext.Session.SetString("UsuarioRol", usuario.Rol);
+            HttpContext.Session.SetString("UsuarioNombre", modelo.Nombre);
+            HttpContext.Session.SetString("UsuarioRol", "cliente");
 
             return RedirectToAction("Index", "Home");
         }
 
-        // ==== HashPassword ====
+        [HttpGet]
+        public IActionResult CrearAdmin()
+        {
+            using var conn = new MySqlConnection(_connectionString);
+            conn.Open();
+
+            string checkQuery = "SELECT COUNT(*) FROM TBL_RUSUARIO WHERE USU_CCORREO = 'admin@admin.com'";
+            using (var cmd = new MySqlCommand(checkQuery, conn))
+            {
+                long count = (long)cmd.ExecuteScalar();
+                if (count > 0)
+                    return Content("El usuario administrador ya existe.");
+            }
+
+            string insertQuery = @"INSERT INTO TBL_RUSUARIO (USU_CNOMBRE, USU_CCORREO, USU_CCONTRASEÑA, USU_CROL)
+                                   VALUES ('Administrador', 'admin@admin.com', @contraseña, 'admin')";
+            using (var cmd = new MySqlCommand(insertQuery, conn))
+            {
+                cmd.Parameters.AddWithValue("@contraseña", HashPassword("admin123"));
+                cmd.ExecuteNonQuery();
+            }
+
+            return Content("Administrador creado: admin@admin.com / admin123");
+        }
+
         private string HashPassword(string input)
         {
             using var sha = SHA256.Create();
@@ -117,32 +143,10 @@ namespace TiendaOnline.Controllers
             return Convert.ToBase64String(hash);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> CrearAdmin()
+        private bool VerificarPassword(string claveIngresada, string claveHasheada)
         {
-            // Verifica si ya existe un admin
-            var existe = await _context.Usuarios
-                .AnyAsync(u => u.Correo == "admin@admin.com");
-
-            if (existe)
-                return Content("El usuario administrador ya existe.");
-
-            // Crea el usuario admin
-            var admin = new UsuarioModel
-            {
-                Nombre = "Administrador",
-                Correo = "admin@admin.com",
-                Clave = HashPassword("admin123"), // Contraseña de ejemplo
-                Rol = "admin"
-            };
-
-            _context.Usuarios.Add(admin);
-            await _context.SaveChangesAsync();
-
-            return Content("Administrador creado: admin@admin.com / admin123");
+            var claveIngresadaHasheada = HashPassword(claveIngresada);
+            return claveHasheada == claveIngresadaHasheada;
         }
-
     }
-    
 }
-

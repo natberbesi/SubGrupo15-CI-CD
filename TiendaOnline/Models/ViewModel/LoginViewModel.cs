@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace TiendaOnline.Models.ViewModel
 {
@@ -13,4 +13,6 @@ namespace TiendaOnline.Models.ViewModel
         public string Clave { get; set; } = string.Empty;
     }
 }
+
+
 

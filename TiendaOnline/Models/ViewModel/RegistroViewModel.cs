@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace TiendaOnline.Models.ViewModel
 {
@@ -21,4 +21,6 @@ namespace TiendaOnline.Models.ViewModel
         [DataType(DataType.Password)]
         public string ConfirmarClave { get; set; } = string.Empty;
     }
+}
+
 }

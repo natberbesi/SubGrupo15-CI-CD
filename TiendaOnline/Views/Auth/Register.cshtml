@@ -1,3 +1,5 @@
+@model TiendaOnline.Models.ViewModel.RegistroViewModel
+
 @{
     ViewData["Title"] = "Registrarse";
 }
@@ -13,23 +15,27 @@
 
         <form asp-action="Register" asp-controller="Auth" method="post">
             <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Tu nombre completo" required />
+                <label asp-for="Nombre"></label>
+                <input asp-for="Nombre" class="form-control" placeholder="Tu nombre completo" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label for="correo">Correo Electrónico</label>
-                <input type="email" id="correo" name="correo" class="form-control" placeholder="ejemplo@correo.com" required />
+                <label asp-for="Correo"></label>
+                <input asp-for="Correo" class="form-control" placeholder="ejemplo@correo.com" />
+                <span asp-validation-for="Correo" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label for="clave">Contraseña</label>
-                <input type="password" id="clave" name="clave" class="form-control" placeholder="Crea una contraseña" required />
+                <label asp-for="Clave"></label>
+                <input asp-for="Clave" class="form-control" placeholder="Crea una contraseña" />
+                <span asp-validation-for="Clave" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label for="confirmarClave">Confirmar Contraseña</label>
-                <input type="password" id="confirmarClave" name="confirmarClave" class="form-control" placeholder="Repite la contraseña" required />
+                <label asp-for="ConfirmarClave"></label>
+                <input asp-for="ConfirmarClave" class="form-control" placeholder="Repite la contraseña" />
+                <span asp-validation-for="ConfirmarClave" class="text-danger"></span>
             </div>
 
             <button type="submit" class="btn btn-login">Registrarse</button>
@@ -40,3 +46,7 @@
         </p>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
